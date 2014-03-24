@@ -15,22 +15,37 @@ function ENT:SetTargetPlayer(ply)
 end
 
 function ENT:ShouldReact(ent)
-	return not ent.dissolved and ent ~= self and ent:CPPIGetOwner() == self.TargetPlayer and ent:GetParent() ~= self.TargetPlayer
+	return not ent.dissolved
+		and ent ~= self
+		and ent:CPPIGetOwner() == self.TargetPlayer
+		and ent:GetParent() ~= self.TargetPlayer
 end
 
 function ENT:FindTarget()
+	if IsValid(self.TargetEntity) and self.TargetEntity.assigned_dissolver == self then
+		self.TargetEntity.assigned_dissolver = nil
+	end
+	
 	local best = math.huge
 	local found = false
 	for _, ent in next, ents.GetAll() do
 		if self:ShouldReact(ent) then
-			local d = self:GetPos():Distance(ent:GetPos())
-			if d < best then
-				best = d
-				self.TargetEntity = ent
-				found = true
+			local valid_dissolver = IsValid(ent.assigned_dissolver)
+			if not valid_dissolver or valid_dissolver == self then
+				local d = self:GetPos():Distance(ent:GetPos())
+				if d < best then
+					best = d
+					self.TargetEntity = ent
+					found = true
+				end
 			end
 		end
 	end
+	
+	if IsValid(self.TargetEntity) then
+		self.TargetEntity.assigned_dissolver = self
+	end
+	
 	return found
 end
 
