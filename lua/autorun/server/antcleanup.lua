@@ -55,7 +55,7 @@ hook.Add("PlayerSay", "AntCleanup", function (ply, txt)
 
 	for i=1, c do
 		local pE = ents.Create("sent_cleanup_entity_dissolver")
-		pE:SetPos(target:GetPos())
+		pE:SetPos(ply:GetPos())
 		pE:SetTargetPlayer(target)
 		pE:Spawn()
 	end
