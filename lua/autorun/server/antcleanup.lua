@@ -23,7 +23,7 @@ end
 local function execute (target)
 	local c = 0 
 	for k,v in next, ents:GetAll() do 
-		if v:CPPIGetOwner() == target and v:GetParent() ~= target then 
+		if v:CPPIGetOwner() == target and v:GetParent() ~= target and not IsValid(v.assigned_dissolver) then 
 			c = c + 1
 		end 
 	end
