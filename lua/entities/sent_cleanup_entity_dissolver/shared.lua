@@ -8,3 +8,8 @@ ENT.Author			= "PotcFdk"
 
 ENT.Spawnable			= false
 ENT.AdminSpawnable		= false
+
+ENT.PhysgunDisabled = true
+ENT.CanConstruct = function() return false end
+ENT.CanTool = function() return false end
+ENT.m_tblToolsAllowed = {}
